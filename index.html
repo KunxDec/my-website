@@ -1,609 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KunXDec - Network Administrator</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-.skill-item {
-  opacity: 0;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KunXDec Premium</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #0a0a0a, #050505);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  position: fixed;
+  width: 100%;
+  backdrop-filter: blur(15px);
+  background: rgba(10,10,10,0.7);
+  z-index: 1000;
+}
+
+.logo {
+  color: #00ffaa;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background: #00ffaa;
+  left: 0;
+  bottom: -5px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ===== DROPDOWN ===== */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background: rgba(20,20,20,0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  display: none;
+  padding: 120px 2rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.section.active {
+  display: block;
+}
+
+/* ===== HERO ===== */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(45deg,#00ffaa,#667eea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== CARD ===== */
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1.5rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* ===== ALBUM ===== */
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 1rem;
+}
+
+.album-grid img {
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.album-grid img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 80%;
+}
+
+/* ===== POPUP ===== */
+.popup {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.85);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
+}
+
+.popup-content {
+  background:white;
+  color:black;
+  padding:2rem;
+  border-radius:10px;
+  max-width:500px;
+  text-align:center;
+}
+
+.close {
+  float:right;
+  cursor:pointer;
+}
+
+/* ===== FADE ===== */
+.fade {
+  opacity:0;
   transform: translateY(20px);
+  transition:0.6s;
 }
 
-.animate-active .skill-item {
-  animation: fadeUp 0.5s forwards;
+.fade.show {
+  opacity:1;
+  transform: translateY(0);
 }
 
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 </style>
-        <style> 
-            * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #00d4aa;
-            --secondary-color: #667eea;
-            --dark-bg: #0a0a0a;
-            --card-bg: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --border-color: #333;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-        }
-
-        nav.scrolled {
-            background: rgba(10, 10, 10, 0.98);
-            padding: 0.5rem 0;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: var(--text-primary);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 50%, #16213e 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%2300d4aa" stop-opacity="0.1"/><stop offset="100%" stop-color="%23667eea" stop-opacity="0.05"/></radialGradient></defs><rect width="100%" height="100%" fill="url(%23a)"/></svg>');
-            animation: float 20s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        .hero-content h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero-content .tagline {
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.2s both;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            animation: fadeInUp 1s ease-out 0.4s both;
-            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 212, 170, 0.4);
-        }
-
-        /* Sections */
-        section {
-            padding: 5rem 0;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 3rem;
-            align-items: center;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .about-image {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .about-image::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, var(--primary-color), transparent 30%);
-            animation: rotate 4s linear infinite;
-            z-index: 1;
-        }
-
-        .about-image img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: block;
-            position: relative;
-            z-index: 2;
-        }
-
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        .about-text h3 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .skill-category {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-category::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-        }
-
-        .skill-category:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 212, 170, 0.2);
-        }
-
-        .skill-category h3 {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
-        .skill-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateX(-20px);
-            animation: slideInLeft 0.6s ease forwards;
-        }
-
-        .skill-item i {
-            font-size: 1.5rem;
-            color: var(--secondary-color);
-            margin-right: 1rem;
-            width: 40px;
-        }
-
-        .skill-item span {
-            font-weight: 500;
-        }
-
-        /* Projects Section */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .project-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .project-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .project-image {
-            height: 200px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-        }
-
-        .project-content {
-            padding: 2rem;
-        }
-
-        .project-content h3 {
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .project-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .project-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .project-links a:hover {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
-        }
-
-        /* Contact Section */
-        .contact-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
-        }
-
-        .form-group textarea {
-            height: 120px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .contact-item i {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            width: 40px;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-links {
-                position: fixed;
-                left: -100%;
-                top: 70px;
-                flex-direction: column;
-                background-color: var(--dark-bg);
-                width: 100%;
-                text-align: center;
-                transition: 0.3s;
-                padding: 2rem 0;
-            }
-
-            .nav-links.active {
-                left: 0;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            section {
-                padding: 3rem 1rem;
-            }
-        }
-
-        /* Scroll animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-
-        .animate-on-scroll.animated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
 </head>
+
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">KD</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>KunXDec</h1>
-            <p class="tagline">Junior Network Administrator | Building Secure Networks</p>
-            <a href="#contact" class="cta-button">Get In Touch</a>
-        </div>
-    </section>
+<!-- POPUP -->
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">✖</span>
+    <h2>Quote of the Day</h2>
+    <p>"Strong systems are built with discipline."</p>
+  </div>
+</div>
 
-    <!-- About Section -->
-    <section id="about" style="background:Navy Blue; color:white;">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="image/Kunga Dechen PP.jpg" alt="KunXDec">
-                </div>
-                <div class="about-text">
-                    <h3>Passionate Network Administrator</h3>
-                    <p>I am KunxDec, a passionate learner in networking and cybersecurity. </p>
-                </p>I enjoy understanding how systems communicate and how to secure them against modern threats.</p>
+<!-- NAV -->
+<nav>
+  <div class="logo">KunXDec</div>
 
-  <p>Currently, I am building my skills in network administration, security practices, 
-    and real-world problem solving. I believe in continuous learning and improving 
-    my technical abilities step by step.</p>
+  <ul class="nav-links">
+    <li><a onclick="showSection('home')">Home</a></li>
 
-  <p>My goal is to become a skilled network and security professional, 
-    contributing to building secure and reliable systems.</p>
-                    <p>I'm a dedicated junior network administrator with hands-on experience in designing, implementing, and maintaining secure network infrastructures. I specialize in Cisco networking, firewall configuration, and cybersecurity fundamentals.</p>
-                    <p>Currently pursuing CCNA certification and building real-world projects to strengthen my skills in network troubleshooting, VLAN configuration, and security implementation.</p>
-                    <ul style="margin-top: 1.5rem; padding-left: 1.5rem;">
-                        <li>🎓 CCNA Student</li>
-                        <li>🏢 6+ months hands-on experience</li>
-                        <li>🔒 Security-focused mindset</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+    <li class="dropdown">
+      <a>About</a>
+      <ul class="dropdown-menu">
+        <li><a onclick="showSection('about')">Profile</a></li>
+        <li><a onclick="showSection('albums')">Albums</a></li>
+        <li><a onclick="showSection('articles')">Articles</a></li>
+      </ul>
+    </li>
 
-    <!-- Skills Section -->
-    <section id="skills" class="animate-on-scroll">
-        <div class="container">
-            <h2 class="section-title">Skills & Technologies</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3><i class="fas fa-network-wired"></i> Networking</h3>
-                    <div class="skill-item" style="animation-delay: 0.1s;"><i class="fab fa-cisco"></i><span>Cisco IOS/NX-OS</span></div>
-                    <div class="skill-item" style="animation-delay: 0.2s;"><i class="fas fa-route"></i><span>VLANs & Trunking</span></div>
-                    <div class="skill-item" style="animation-delay: 0.3s;"><i class="fas fa-sitemap"></i><span>Routing (OSPF, EIGRP)</span></div>
-                    <div class="skill-item" style="animation-delay: 0.4s;"><i class="fas fa-ethernet"></i><span>Switching & STP</span></div>
-                    <div class="skill-item" style="animation-delay: 0.5s;"><i class="fas fa-wifi"></i><span>Wireless Networking</span></div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-shield-alt"></i> Cyber Security</h3>
-                    <div class="skill-item" style="animation-delay: 0.1s;"><i class="fas fa-firewall"></i><span>Firewall Configuration</span></div>
-                    <div class="skill-item" style="animation-delay: 0.2
+    <li><a onclick="showSection('contact')">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="section active">
+  <div class="hero fade">
+    <h1>KunXDec</h1>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section fade">
+  <h2>About Me</h2>
+  <div class="card">
+    Cybersecurity & Networking learner building real-world skills.
+  </div>
+</section>
+
+<!-- ALBUM -->
+<section id="albums" class="section fade">
+  <h2>Albums</h2>
+
+  <div class="album-grid">
+    <img src="https://via.placeholder.com/400" onclick="openImage(this)">
+    <img src="https://via.placeholder.com/400" onclick="openImage(this)">
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section id="articles" class="section fade">
+  <h2>Articles</h2>
+
+  <div class="card">
+    <h3>Understanding VLAN</h3>
+    <p>Segmentation improves security and performance...</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section fade">
+  <h2>Contact</h2>
+  <div class="card">Email: you@email.com</div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox" onclick="closeImage()">
+  <img id="lightbox-img">
+</div>
+
 <script>
-const elements = document.querySelectorAll('.animate-on-scroll');
 
-function checkScroll() {
-  const triggerBottom = window.innerHeight * 0.85;
-
-  elements.forEach(el => {
-    const top = el.getBoundingClientRect().top;
-
-    if (top < triggerBottom) {
-      el.classList.add('animated'); // ✅ FIXED
-    }
+/* SECTION SWITCH */
+function showSection(id){
+  document.querySelectorAll('.section').forEach(sec=>{
+    sec.classList.remove('active','show');
   });
+
+  const target = document.getElementById(id);
+  target.classList.add('active');
+
+  setTimeout(()=>target.classList.add('show'),100);
 }
 
-window.addEventListener('scroll', checkScroll);
-window.addEventListener('load', checkScroll);
+/* POPUP */
+function closePopup(){
+  document.getElementById('popup').style.display='none';
+}
+
+/* IMAGE VIEW */
+function openImage(img){
+  document.getElementById('lightbox').style.display='flex';
+  document.getElementById('lightbox-img').src = img.src;
+}
+
+function closeImage(){
+  document.getElementById('lightbox').style.display='none';
+}
+
+/* LOAD */
+window.onload = ()=>{
+  document.getElementById('popup').style.display='flex';
+}
+
 </script>
-                        
+
+</body>
+</html>
+
+                   
